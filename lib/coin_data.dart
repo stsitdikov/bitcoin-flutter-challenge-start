@@ -1,4 +1,5 @@
-//TODO: Add your imports here.
+import 'package:bitcoin_ticker/apikey.dart';
+import 'package:http/http.dart' as http;
 
 const List<String> currenciesList = [
   'AUD',
@@ -30,9 +31,18 @@ const List<String> cryptoList = [
   'LTC',
 ];
 
-const coinAPIURL = 'https://rest.coinapi.io/v1/exchangerate';
-const apiKey = 'YOUR-API-KEY-HERE';
+const coinAPIURL = 'https://rest.coinapi.io/v1/exchangerate/BTC/USD';
 
 class CoinData {
-  //TODO: Create your getCoinData() method here.
+  Future<String> getCoinData() async {
+    final response = await http.get(
+      Uri.parse(coinAPIURL + '?apikey=' + kAPIKey),
+    );
+
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to load the rate');
+    }
+  }
 }
